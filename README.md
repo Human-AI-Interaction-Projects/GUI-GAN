@@ -1,4 +1,4 @@
-# HMM-T9: GUI-GAN: Towards an interactive graphical framework for privacy-preserving artificial data synthesis and imputation using generative adversarial networks.
+# GUI-GAN: Towards an interactive graphical framework for privacy-preserving artificial data synthesis and imputation using generative adversarial networks.
 
 *Elevator Pitch: We have designed a graphical framework for generating large amounts of realistic but privacy-preserving synthetic sensory data from limited real-world data in any discipline, while also allowing the user to modify the generated data using graphical tools.*
 
