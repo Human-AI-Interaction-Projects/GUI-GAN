@@ -1,0 +1,6 @@
+model_checkpoint_path: "GAN_models.ckpt-199"
+all_model_checkpoint_paths: "GAN_models.ckpt-159"
+all_model_checkpoint_paths: "GAN_models.ckpt-169"
+all_model_checkpoint_paths: "GAN_models.ckpt-179"
+all_model_checkpoint_paths: "GAN_models.ckpt-189"
+all_model_checkpoint_paths: "GAN_models.ckpt-199"

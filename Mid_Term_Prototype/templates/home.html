@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var output = document.getElementById('output');
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '{{ url_for('stream') }}', true);
+            xhr.send();
+            var cell_text = output.textContent;
+            setInterval(function() {
+                output.innerHTML = cell_text.concat(xhr.responseText, "\n");
+            }, 500);
+        });
+    </script>
+</head>
+<body>
+    <div name="header_div", class="header">
+        <h1>Interactive Data Generator</h1>
+    </div>
+
+
+    <div name="main_div">
+
+        <div class="row">
+            <div name="generator_div", class="column">
+                <div class="column_content_left">
+                    <div name="load_data_div">
+                        <form name="load_data_form" action="" method="post" enctype="multipart/form-data">
+                            <p>
+                                <!-- add <multiple=''> property to allow multiple file uploads -->
+                                <!-- add webkitdirectory="" directory="" property to allow downloading folders -->
+                                <input type="file" class="file_load_button"  name="input_file"  />
+                                <input type="submit" class="generic-button" name="load_data_button" value="load_file">
+                            </p>
+                        </form>
+                    </div>
+
+                    <div name="generate_data_div">
+                        <form name="generate_data_form" action="" method="post">
+                            <p>
+                                Epochs
+                                <input type="text" name="epochs" value="10"/>
+                                Samples
+                                <input type="text" name="samples" value="5"/>
+                                <input type="submit" class="generic-button" name="generate_data_button" value="generate">
+                            </p>
+                        </form>
+                    </div>
+
+                    <div name="save_data_div">
+                        <form name="save_data_form" action="/generated_data.csv" method="post">
+                            <p>
+                                <input type="submit" class="generic-button" value="save">
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div name="Imputation", class="column">
+                <div class="column_content_center">
+                    <div name="range_div">
+                        <form name="range_form" action="" method="post">
+                            <p>
+                                Range
+                                {% set range = UI.start + '-' + UI.end  %}
+                                <input type="text" name="range" value= {{ range }} readonly />
+                            </p>
+                        </form>
+                    </div>
+
+                    <div name="reference_points_div">
+                        <form name="reference_points_form" action="" method="post">
+                            <p>
+                                Reference Points
+                               <input type="text" name="reference_points" readonly/>
+                            </p>
+                        </form>
+                    </div>
+
+                    <div name="impute_section_div">
+                        <form name="impute_section_form" action="" method="post">
+                            <p>
+                                <input type="submit" class="generic-button" name="impute_data_button" value="impute">
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="column_content_right">
+                    <h2>Execution log</h2>
+                    <div id="output">
+                        {% for log_msg in UI.logs %}
+                            {% set appended_log_msg = log_msg + "<br/>" %}
+                            {{ appended_log_msg }}<br/>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div name="plot_div" class="after">
+            <div class="row_content">
+                <div name="selector_div" class="slct_dv">
+                    <form name="selector_form" action="" method="post">
+                        {% if UI.original_select == "select-button" %}
+                            {% set jin_currntn_sample = UI.current_orig %}
+                        {% else %}
+                            {% set jin_currntn_sample = UI.current_gen %}
+                        {% endif %}
+
+                        <input type="submit" name="rotate_button" value="<<<" class="rotate_button">
+                        <input type="submit" class= {{ UI.original_select }} name="submit_button" value="original">
+                        Sample {{ jin_currntn_sample }}
+                        <input type="submit" class= {{ UI.synthesized_select }} name="submit_button" value="synthesized">
+                        <input type="submit" name="rotate_button" value=">>>" class="rotate_button">
+                    </form>
+                </div>
+                <div class ="slct_dv">
+                    {{ the_div|safe }}
+                    <script src="http://cdn.pydata.org/bokeh/release/bokeh-2.2.3.min.js"></script>
+                    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.2.3.min.js"></script>
+                    {{ the_script|safe }}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
