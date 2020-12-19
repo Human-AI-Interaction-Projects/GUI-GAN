@@ -1,0 +1,7 @@
+tqdm
+numpy
+scipy
+flask
+bokeh==2.2.3
+tensorflow
+scikit-bio

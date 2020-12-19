@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var output = document.getElementById('output');
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '{{ url_for('stream') }}', true);
+            xhr.send();
+            var cell_text = output.textContent;
+            setInterval(function() {
+                output.innerHTML = cell_text.concat(xhr.responseText, "\n");
+            }, 500);
+        });
+    </script>
+</head>
+<body>
+
+    <div class="grid-container">
+        <div class="header-wrapper-outer">
+            <div class="header-wrapper-inner">
+                <div class="header">
+                    Interactive Data Generator
+                </div>
+            </div>
+        </div>
+
+        <div class="generator-wrapper" >
+            <div class="generator">
+                <div class="generator-header-wrapper">
+                    <div class="generator-header">
+                        Generator
+                    </div>
+                </div>
+
+                <form name="generate_data_form" class="generate-data-form-wrapper" action="" method="post">
+                    <div class="epochs-text-wrapper">
+                        <div class="epochs-text">
+                            # of epochs
+                        </div>
+                    </div>
+                    <div class="epochs-input-wrapper">
+                        <div class="epochs-input">
+                            <input type="text" name="epochs" class="generator-input-text-field" value="10"/>
+                        </div>
+                    </div>
+                    <div class="samples-text-wrapper">
+                        <div class="samples-text">
+                            # of plots
+                        </div>
+                    </div>
+                    <div class="samples-input-wrapper">
+                        <div class="samples-input">
+                            <input type="text" name="samples" class="generator-input-text-field" value="[5, 5]"/>
+                        </div>
+                    </div>
+                    <div class="generate-button-wrapper">
+                        <input type="submit" class="generate-button" name="generate_data_button" value="generate">
+                    </div>
+                </form>
+
+
+                <form name="load_data_form" class="load-data-form-wrapper" action="" method="post" enctype="multipart/form-data">
+                    <div class="load-button-left">
+                        <!-- add <multiple=''> property to allow multiple file uploads -->
+                        <!-- add webkitdirectory="" directory="" property to allow downloading folders -->
+                        <label for="file-upload" class="custom-file-upload">
+                            choose file
+                        </label>
+                        <input id="file-upload" type="file" class="file_load_button"  name="input_file"  />
+                    </div>
+                    <div class="load-button-right">
+                        <input type="submit" class="load-button" name="load_data_button" value="load_file">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="imputation-wrapper">
+            <div class="imputation">
+                <div class="imputation-header-wrapper">
+                    <div class="imputation-header">
+                        Corrector
+                    </div>
+                </div>
+
+                <form name="impute_section_form" class="imputation-body-wrapper" action="" method="post">
+                    <div class="batch-text-wrapper">
+                        <div class="batch-text">
+                            # of batches
+                        </div>
+                    </div>
+                    <div class="batch-input-wrapper">
+                        <div class="batch-input">
+                            <input type="text" name="batch" class="corrector-input-text-field" value="128"/>
+                        </div>
+                    </div>
+                    <div class="iterations-text-wrapper">
+                        <div class="iterations-text">
+                            # of iterations
+                        </div>
+                    </div>
+                    <div class="iterations-input-wrapper">
+                        <div class="iterations-input">
+                            <input type="text" name="iterations" class="corrector-input-text-field" value="10000"/>
+                        </div>
+                    </div>
+                    <div class="range-text-wrapper">
+                        <div class="range-text">
+                            range
+                        </div>
+                    </div>
+                    <div class="range-input-wrapper">
+                        <div class="range-input">
+                            {% set range = UI.start + '-' + UI.end  %}
+                            <input type="text" id="points_select" name="range" class="corrector-input-text-field" value= {{ range }} readonly />
+                        </div>
+                    </div>
+                    <div class="reference-text-wrapper">
+                        <div class="reference-text">
+                            reference
+                        </div>
+                    </div>
+                    <div class="reference-input-wrapper">
+                        <div class="reference-input">
+                            <input type="text" id="points_ref" name="reference_points" class="corrector-input-text-field" readonly/>
+                        </div>
+                    </div>
+                    <div class="impute-button-wrapper">
+                        <input type="submit" class="impute-button" name="impute_data_button" value="impute">
+                    </div>
+                </form>
+
+                <form name="save_data_form" class="save-button-wrapper-outer" action="/generated_data.csv" method="post">
+                    <div class="save-button-wrapper-inner" name="save_data_div">
+                        <input type="submit" class="save-button" value="save">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+        <div class="logger-wrapper">
+            <div class="logger">
+                <div class="logger-header-wrapper">
+                    <div class="logger-header">
+                        Logger
+                    </div>
+                </div>
+
+                <div id="output" class="logger-body-wrapper">
+                    {% for log_msg in UI.logs %}
+                        {% set appended_log_msg = log_msg + "<br/>" %}
+                        {{ appended_log_msg }}<br/>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-display-wrapper">
+            <div class="interactive-display">
+                    <form name="selector_form" class="interactive-display-buttons" action="" method="post">
+                        {% if UI.original_select == "select-button" %}
+                            {% set jin_current_sample = UI.current_orig %}
+                            {% set jin_current_class = UI.current_orig_class %}
+                        {% else %}
+                            {% set jin_current_sample = UI.current_gen %}
+                            {% set jin_current_class = UI.current_gen_class %}
+                        {% endif %}
+
+                        <div class="left-right-switch">
+                            <input type="submit" name="rotate_button" value="<<<" class="rotate_button">
+                            sample {{ jin_current_sample }}; class {{ jin_current_class }}
+                            <input type="submit" name="rotate_button" value=">>>" class="rotate_button">
+                        </div>
+
+                        <div class="orig-syn-switch">
+                            <div class="orig-switch">
+                                <input type="submit" class= {{ UI.original_select }} name="submit_button" value="original">
+                            </div>
+                            <div class="syn-switch">
+                                <input type="submit" class= {{ UI.synthesized_select }} name="submit_button" value="synthesized">
+                            </div>
+                        </div>
+                        <!--
+                        <div class="class-switch">
+                            <input type="submit" name="change_class_button" value="<<<" class="rotate_button">
+                            class {{ jin_current_sample }}
+                            <input type="submit" name="change_class_button" value=">>>" class="rotate_button">
+                        </div>
+                        -->
+                    </form>
+
+                <div class ="interactive-display-plot">
+                    {{ the_div|safe }}
+                    <script src="http://cdn.pydata.org/bokeh/release/bokeh-2.2.3.min.js"></script>
+                    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.2.3.min.js"></script>
+                    {{ the_script|safe }}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="statistics-wrapper">
+            <div class="statistics">
+                <div class="stat-header-wrapper">
+                    <div class="stat-header">
+                        Statistics
+                    </div>
+                </div>
+
+                {% if UI.original_select == "select-button" %}
+                    {% set jin_novelty = UI.orig_nvlt %}
+                    {% set jin_diversity = UI.orig_div %}
+                    {% set jin_loss = "-" %}
+                    {% set jin_RMSE = "-" %}
+                    {% set jin_miscl = "-" %}
+
+                    {% set jin_t_l_source = "/orig_clsdist_plot.png" %}
+                    {% set jin_t_r_source = "/orig_dsdiv_plot.png" %}
+                    {% set jin_b_l_source = "/orig_dsdist_plot.png" %}
+                    {% set jin_b_r_source = "/orig_dsnvlt_plot.png" %}
+                {% else %}
+                    {% set jin_novelty = UI.gen_nvlt %}
+                    {% set jin_diversity = UI.gen_div %}
+                    {% set jin_loss = UI.gen_loss %}
+                    {% set jin_RMSE = UI.gen_RMSE %}
+                    {% set jin_miscl = UI.gen_miscl %}
+
+                    {% set jin_t_l_source = "/gen_clsdist_plot.png" %}
+                    {% set jin_t_r_source = "/gen_dsdiv_plot.png" %}
+                    {% set jin_b_l_source = "/gen_dsdist_plot.png" %}
+                    {% set jin_b_r_source = "/gen_dsnvlt_plot.png" %}
+                {% endif %}
+
+                <div class="entry-1-wrapper-outer">
+                    <div class="entry-1-wrapper-inner">
+                        <div class="entry-1">
+                            Novelty score
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-2-wrapper-outer">
+                    <div class="entry-2-wrapper-inner">
+                        <div class="entry-2">
+                            {{ jin_novelty }}
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-3-wrapper-outer">
+                    <div class="entry-3-wrapper-inner">
+                        <div class="entry-3">
+                            Diversity score
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-4-wrapper-outer">
+                    <div class="entry-4-wrapper-inner">
+                        <div class="entry-4">
+                            {{ jin_diversity }}
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-5-wrapper-outer">
+                    <div class="entry-5-wrapper-inner">
+                        <div class="entry-5">
+                            GAN loss
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-6-wrapper-outer">
+                    <div class="entry-6-wrapper-inner">
+                        <div class="entry-6">
+                            {{ jin_loss }}
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-7-wrapper-outer">
+                    <div class="entry-7-wrapper-inner">
+                        <div class="entry-7">
+                            RMSE
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-8-wrapper-outer">
+                    <div class="entry-8-wrapper-inner">
+                        <div class="entry-8">
+                            {{ jin_RMSE }}
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-9-wrapper-outer">
+                    <div class="entry-9-wrapper-inner">
+                        <div class="entry-9">
+                            miscl. rate
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-10-wrapper-outer">
+                    <div class="entry-10-wrapper-inner">
+                        <div class="entry-10">
+                            {{ jin_miscl }}
+                        </div>
+                    </div>
+                </div>
+                <div class="t-l-head-wrapper">
+                    <div class="t-l-head">
+                        class dist
+                    </div>
+                </div>
+                <div class="t-l-plot">
+                    <img src= {{ jin_t_l_source }} alt="my plot">
+                </div>
+                <div class="t-r-head-wrapper">
+                    <div class="t-r-head">
+                        ds. diversity
+                    </div>
+                </div>
+                <div class="t-r-plot">
+                    <img src= {{ jin_t_r_source }} alt="my plot">
+                </div>
+                <div class="b-l-head-wrapper">
+                    <div class="b-l-head">
+                        ds. dist
+                    </div>
+                </div>
+                <div class="b-l-plot">
+                    <img src= {{ jin_b_l_source }} alt="my plot">
+                </div>
+                <div class="b-r-head-wrapper">
+                    <div class="b-r-head">
+                        ds. novelty
+                    </div>
+                </div>
+                <div class="b-r-plot">
+                    <img src= {{ jin_b_r_source }} alt="my plot">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-wrapper-outer">
+            <div class="footer-wrapper-inner">
+                <div class="footer">
+                    Copyright by Viacheslav Inderiakin and Swapnil Saha
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

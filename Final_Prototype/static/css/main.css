@@ -1,0 +1,1043 @@
+/* --- use variables sparingly. Specify only colors and repeating sizes --- */
+:root {
+    --super-light-blue: rgb(235, 245, 255);
+    --light-blue: rgb(218, 232, 252);
+    --dark-blue: rgb(108, 142, 191);
+    --super-dark-blue: rgb(72, 95, 128);
+
+    --light-red: rgb(248, 206, 204);
+    --mid-red: rgb(220, 140, 140);
+    --dark-red: rgb(184, 84, 80);
+
+    --light-green: rgb(213, 232, 212);
+    --dark-green: rgb(130, 179, 102);
+
+    --light-yellow: rgb(255, 242, 204);
+    --mid-yellow: rgb(225, 212, 140);
+    --dark-yellow: rgb(214, 182, 86);
+
+    --light-purple: rgb(225, 213, 231);
+    --mid-purple: rgb(262, 163, 200);
+    --dark-purple: rgb(150, 115, 166);
+
+    --light-grey: #f1f1f1;
+    --mid-grey: #ddd;
+    --dark-grey: #aaa;
+
+    --light-black: rgb(75, 75, 75);
+    --mid-black: rgb(50, 50, 50);
+
+    /* outer cell margin should be twice as big as inner cell margin */
+    --inner-cell-margin: 5px;
+    --outer-cell-margin: 10px;
+    --border-size: 4px;
+
+    --inner-cell-padding: 2px;
+    --outer-cell-padding: 4px;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    background-color: var(--light-grey);
+}
+/*
+h1.top_header {
+    margin-top: 0;
+    padding: 0;
+    display:table-cell;
+    vertical-align:middle;
+}
+div.top_header_div {
+    background-color: #ddd;
+    text-align: center;
+    height: var(--header_size);
+    width: 100%;
+    display: table;
+    /_*
+    display - iniline block?
+    these should some up to header size
+    padding: var(--header_size) * 0.1;
+    height: var(--header_size) * 0.9;
+    *_/
+}
+*/
+
+
+/* The grid container */
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header'
+    'left_top middle_top middle_top middle_top right_top'
+    'left_bot left_bot left_bot right_bot right_bot'
+    'footer footer footer footer footer';
+  grid-template-rows: 6% 36% 52% 6%;
+  grid-template-columns: 33% 11% 12% 11% 33%;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* Style the header */
+/* header-h might not be robustly pinned to header-div. check later */
+.header-wrapper-outer {
+    grid-area: header;
+    background-color: var(--light-black);
+    padding-bottom: var(--border-size);
+    height: auto;
+}
+
+.header-wrapper-inner {
+    height: 100%;
+    width: 100%;
+    background-color: var(--mid-grey);
+    display: table;
+}
+
+.header {
+    text-align: center;
+    font-size: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+
+/* Style the generator containers */
+.generator-wrapper {
+    grid-area: left_top;
+    margin-top: var(--outer-cell-margin);
+    margin-right: var(--inner-cell-margin);
+    margin-bottom: var(--inner-cell-margin);
+    margin-left: var(--outer-cell-margin);
+    padding: var(--border-size);
+    height: auto;
+    background-color: var(--dark-blue);
+}
+
+.generator {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'left-margin generator-header right-margin'
+        'left-margin generator-button right-margin'
+        'left-margin load-button right-margin';
+    grid-template-rows: 20% 50% 30%;
+    grid-template-columns: 5% 90% 5%;
+    background-color: var(--light-blue);
+}
+
+.generator-header-wrapper {
+    grid-area: generator-header;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.generator-header {
+    text-align: center;
+    font-size: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.generate-data-form-wrapper {
+    grid-area: generator-button;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'top         top          top          top'
+        'left-margin epochs-text  epochs-input  right-margin'
+        'left-margin samples-text samples-input right-margin'
+        'left-margin button       button        right-margin'
+        'bot bot bot bot';
+    grid-template-rows: 5% 25% 25% 40% 5%;
+    grid-template-columns: 5% 45% 45% 5%;
+}
+
+.epochs-text-wrapper {
+    grid-area: epochs-text;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.epochs-text {
+    text-align: left;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+
+}
+
+.epochs-input-wrapper {
+    grid-area: epochs-input;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+.samples-text-wrapper {
+    grid-area: samples-text;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.samples-text {
+    text-align: left;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.samples-input-wrapper {
+    grid-area: samples-input;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+.generator-input-text-field {
+    background-color: var(--light-blue);
+    border: 2px solid var(--dark-blue);
+    border-radius: 4px;
+    width: 40%;
+}
+
+.generator-input-text-field:focus {
+    background-color: var(--super-light-blue);
+    border: 2px solid var(--super-dark-blue);
+    border-radius: 4px;
+}
+
+.generate-button-wrapper {
+    grid-area: button;
+}
+
+.generate-button {
+    margin-left: 10%;
+    margin-top: 4%;
+    height: 70%;
+    width: 80%;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 2px solid var(--dark-red);
+    background-color: var(--light-red);
+}
+
+.generate-button:hover {
+    background-color: var(--mid-red);
+}
+
+
+.load-data-form-wrapper {
+    grid-area: load-button;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'left-margin left right right-margin';
+    grid-template-columns: 5% 45% 45% 5%;
+}
+
+.load-button-left{
+    grid-area: left;
+}
+
+.load-button-right{
+    grid-area: right;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 2px solid var(--dark-red);
+    background-color: var(--light-red);
+    display: block;
+    width: 70%;
+    height: 30%;
+    margin-left: 20%;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.custom-file-upload:hover {
+    background-color: var(--mid-red);
+}
+
+.load-button {
+    border: 2px solid var(--dark-red);
+    background-color: var(--light-red);
+    display: block;
+    width: 70%;
+    height: 37%;
+    margin-left: 10%;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.load-button:hover {
+    background-color: var(--mid-red);
+}
+
+/* Style the imputation containers */
+.imputation-wrapper {
+    grid-area: middle_top;
+    margin-top: var(--outer-cell-margin);
+    margin-right: var(--inner-cell-margin);
+    margin-bottom: var(--inner-cell-margin);
+    margin-left: var(--inner-cell-margin);
+    background-color: var(--dark-red);
+    padding: var(--border-size);
+    height: auto;
+}
+
+.imputation {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'left-margin imputation-header right-margin'
+        'left-margin imputation-body right-margin'
+        'left-margin save-button right-margin';
+    grid-template-rows: 20% 60% 20%;
+    grid-template-columns: 5% 90% 5%;
+    background-color: var(--light-red);
+}
+
+.imputation-header-wrapper {
+    grid-area: imputation-header;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.imputation-header {
+    text-align: center;
+    font-size: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.imputation-body-wrapper {
+    grid-area: imputation-body;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'top         top             top              top'
+        'left-margin batch-text      batch-input      right-margin'
+        'left-margin iterations-text iterations-input right-margin'
+        'left-margin range-text      range-input      right-margin'
+        'left-margin references-text references-input right-margin'
+        'left-margin impute-button   impute-button    right-margin';
+    grid-template-rows: 3% 18% 18% 18% 18% 25%;
+    grid-template-columns: 5% 45% 45% 5%;
+}
+
+.batch-text-wrapper {
+    grid-area: batch-text;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.batch-text {
+    text-align: left;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.batch-input-wrapper {
+    grid-area: batch-input;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+.iterations-text-wrapper {
+    grid-area: iterations-text;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.iterations-text {
+    text-align: left;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.iterations-input-wrapper {
+    grid-area: iterations-input;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+.range-text-wrapper {
+    grid-area: range-text;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.range-text {
+    text-align: left;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.range-input-wrapper {
+    grid-area: range-input;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+.reference-text-wrapper{
+    grid-area: references-text;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.reference-text {
+    text-align: left;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.reference-input-wrapper {
+    grid-area: references-input;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+.corrector-input-text-field {
+    background-color: var(--light-red);
+    border: 2px solid var(--dark-red);
+    border-radius: 4px;
+    width: 40%;
+}
+
+.impute-button-wrapper {
+    grid-area: impute-button;
+}
+
+.impute-button {
+    margin-left: 10%;
+    margin-top: 1%;
+    height: 80%;
+    width: 80%;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 2px solid var(--dark-purple);
+    background-color: var(--light-purple);
+}
+
+.impute-button:hover {
+    background-color: var(--mid-purple);
+}
+
+.save-button-wrapper-outer {
+    grid-area: save-button;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'left-margin button right-margin';
+    grid-template-columns: 5% 90% 5%;
+}
+
+.save-button-wrapper-inner {
+    grid-area: button;
+    height: 100%;
+    width: 100%;
+}
+
+.save-button {
+    margin-left: 10%;
+    margin-top: 1%;
+    height: 60%;
+    width: 80%;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 2px solid var(--dark-purple);
+    background-color: var(--light-purple);
+}
+
+.save-button:hover {
+    background-color: var(--mid-purple);
+}
+
+
+/* Style the logger containers */
+.logger-wrapper {
+    grid-area: right_top;
+    margin-top: var(--outer-cell-margin);
+    margin-right: var(--outer-cell-margin);
+    margin-bottom: var(--inner-cell-margin);
+    margin-left: var(--inner-cell-margin);
+    background-color: var(--dark-yellow);
+    padding: var(--border-size);
+    height: auto;
+}
+
+.logger {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'left-margin logger-header right-margin'
+        'left-margin logger-body right-margin'
+        'bottom bottom bottom';
+    grid-template-rows: 20% 70% 10%;
+    grid-template-columns: 5% 90% 5%;
+    background-color: var(--light-red);
+    background-color: var(--light-yellow);
+}
+
+.logger-header-wrapper {
+    grid-area: logger-header;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.logger-header {
+    text-align: center;
+    font-size: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.logger-body-wrapper {
+    grid-area: logger-body;
+    height: 100%;
+    width: 100%;
+    background-color: var(--mid-yellow);
+    overflow-y: scroll;
+}
+
+
+/* Style the interactive display containers */
+.interactive-display-wrapper {
+    grid-area: left_bot;
+    margin-top: var(--inner-cell-margin);
+    margin-right: var(--inner-cell-margin);
+    margin-bottom: var(--outer-cell-margin);
+    margin-left: var(--outer-cell-margin);
+    background-color: var(--dark-green);
+    padding: var(--border-size);
+    height: auto;
+}
+
+.interactive-display {
+    height: 100%;
+    width: 100%;
+    background-color: var(--light-green);
+    display: grid;
+    grid-template-areas:
+        'left-margin buttons right-margin'
+        'left-margin plot right-margin'
+        'bottom bottom bottom';
+    grid-template-rows: 20% 75% 5%;
+    grid-template-columns: 5% 90% 5%;
+}
+
+.interactive-display-buttons {
+    grid-area: buttons;
+    display: grid;
+    grid-template-areas:
+        'left right right';
+    grid-template-columns: 33% 34% 33%;
+}
+
+.left-right-switch {
+    grid-area: right;
+    margin:auto;
+}
+
+.orig-syn-switch {
+    grid-area: left;
+    display: grid;
+    grid-template-areas:
+        'left right';
+    grid-template-columns: 50% 50%;
+}
+
+.orig-switch {
+    grid-area: left;
+    margin-top:15%;
+    text-align: center;
+}
+
+.syn-switch {
+    grid-area: right;
+    margin-top:15%;
+    text-align: center;
+}
+
+.select-button {
+    border: 2px solid var(--dark-red);
+    background-color: var(--mid-red);
+    display: block;
+    width: 80%;
+    height: 60%;
+    margin-left: 10%;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.unselect-button {
+    border: 2px solid var(--dark-red);
+    background-color: var(--light-red);
+    display: block;
+    width: 80%;
+    height: 60%;
+    margin-left: 10%;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.class-switch {
+    grid-area: right;
+    margin:auto;
+}
+
+.interactive-display-plot {
+    grid-area: plot;
+}
+
+.rotate_button {
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.1em 0.1em 0;
+    border:0.16em solid var(--dark-red);
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    background-color: #f14e4e;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color: var(--dark-black);
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    text-align:center;
+    transition: all 0.2s;
+}
+
+/* Style the statistics containers */
+.statistics-wrapper {
+    grid-area: right_bot;
+    margin-top: var(--inner-cell-margin);
+    margin-right: var(--outer-cell-margin);
+    margin-bottom: var(--outer-cell-margin);
+    margin-left: var(--inner-cell-margin);
+    background-color: var(--dark-purple);
+    padding: var(--border-size);
+    height: auto;
+}
+
+.statistics {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        'left-margin   stat-header   stat-header   gap   top        top        right-margin'
+        'left-margin   stat-header   stat-header   gap   t-l-head   t-r-head   right-margin'
+        'left-margin   entry-1       entry-2       gap   t-l-plot   t-r-plot   right-margin'
+        'left-margin   entry-3       entry-4       gap   t-l-plot   t-r-plot   right-margin'
+        'left-margin   entry-5       entry-6       gap   b-l-head   b-r-head   right-margin'
+        'left-margin   entry-7       entry-8       gap   b-l-plot   b-r-plot   right-margin'
+        'left-margin   entry-9       entry-10      gap   b-l-plot   b-r-plot   right-margin'
+        'left-margin   bot1          bot1          gap   bot2       bot2       right-margin';
+    grid-template-rows: 5% 15% 15% 15% 15% 15% 15% 5%;
+    grid-template-columns: 5% 18% 18% 4% 25% 25% 5%;
+    background-color: var(--light-purple);
+}
+
+.stat-header-wrapper {
+    grid-area: stat-header;
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.stat-header {
+    text-align: center;
+    font-size: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.entry-1-wrapper-outer {
+    grid-area: entry-1;
+    padding-top: var(--outer-cell-padding);
+    padding-right: var(--inner-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--outer-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-1-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-1 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-2-wrapper-outer {
+    grid-area: entry-2;
+    padding-top: var(--outer-cell-padding);
+    padding-right: var(--outer-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--inner-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-2-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-2 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-3-wrapper-outer {
+    grid-area: entry-3;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--inner-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--outer-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-3-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-3 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-4-wrapper-outer {
+    grid-area: entry-4;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--outer-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--inner-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-4-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-4 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-5-wrapper-outer {
+    grid-area: entry-5;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--inner-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--outer-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-5-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-5 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-6-wrapper-outer {
+    grid-area: entry-6;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--outer-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--inner-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-6-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-6 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-7-wrapper-outer {
+    grid-area: entry-7;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--inner-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--outer-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-7-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-7 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-8-wrapper-outer {
+    grid-area: entry-8;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--outer-cell-padding);
+    padding-bottom: var(--inner-cell-padding);
+    padding-left: var(--inner-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-8-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-8 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-9-wrapper-outer {
+    grid-area: entry-9;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--inner-cell-padding);
+    padding-bottom: var(--outer-cell-padding);
+    padding-left: var(--outer-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-9-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-9 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.entry-10-wrapper-outer {
+    grid-area: entry-10;
+    padding-top: var(--inner-cell-padding);
+    padding-right: var(--outer-cell-padding);
+    padding-bottom: var(--outer-cell-padding);
+    padding-left: var(--inner-cell-padding);
+    background-color: var(--mid-black);
+}
+
+.entry-10-wrapper-inner {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+    background-color: var(--light-purple);
+}
+
+.entry-10 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.t-l-head-wrapper {
+    width: 100%;
+    height: 100%;
+    display: table;
+    grid-area: t-l-head;
+    text-align: center;
+
+}
+
+.t-l-head {
+    display: table-cell;
+    vertical-align: bottom;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.t-l-plot {
+    padding-top: 0;
+    grid-area: t-l-plot;
+}
+
+.t-r-head-wrapper {
+    width: 100%;
+    height: 100%;
+    display: table;
+    grid-area: t-r-head;
+    text-align: center;
+
+}
+
+.t-r-head {
+    display: table-cell;
+    vertical-align: bottom;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.t-r-plot {
+    padding-top: 0;
+    grid-area: t-r-plot;
+
+}
+
+.b-l-head-wrapper {
+    width: 100%;
+    height: 100%;
+    display: table;
+    grid-area: b-l-head;
+    text-align: center;
+
+}
+
+.b-l-head {
+    display: table-cell;
+    vertical-align: bottom;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.b-l-plot {
+    padding-top: 0;
+    grid-area: b-l-plot;
+
+}
+
+.b-r-head-wrapper {
+    width: 100%;
+    height: 100%;
+    display: table;
+    grid-area: b-r-head;
+    text-align: center;
+
+}
+
+.b-r-head {
+    display: table-cell;
+    vertical-align: bottom;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.b-r-plot {
+    padding-top: 0;
+    grid-area: b-r-plot;
+
+}
+
+img {
+    max-width:100%;
+    height:auto;
+}
+
+/* style the footer containers */
+.footer-wrapper-outer {
+    grid-area: footer;
+    background-color: var(--mid-black);
+    padding-top: var(--border-size);
+    height: auto;
+}
+
+.footer-wrapper-inner {
+    height: 100%;
+    width: 100%;
+    background-color: var(--mid-grey);
+    display: table;
+}
+
+
+.footer {
+    background-color: var(--dark-grey);
+
+    text-align: right;
+    font-size: 12px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+
+.slct_dv {
+    text-align:center
+}

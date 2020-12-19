@@ -1,0 +1,106 @@
+html {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #444;
+    width: 100%;
+    height: 100%;
+    background-color: #f1f1f1;
+}
+
+.header {
+    background-color: #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+h2 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    height: 30px;
+    padding-top: 7px;
+    padding-left: 3px;
+    background-color: #333;
+    color: white;
+    margin: 0px;
+}
+
+#output {
+    overflow-y: scroll;
+    height: 70%;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 33.33%;
+    height: 200px;
+}
+
+.column_content_left {
+    margin: 10px;
+    margin-right: 5px;
+    padding: 2px;
+    background-color: #FFFFFF;
+    height: 90%;
+}
+
+.column_content_center {
+    margin: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: #FFFFFF;
+    height: 90%;
+}
+
+.column_content_right {
+    margin: 10px;
+    margin-left: 5px;
+    padding: 2px;
+    background-color: #FFFFFF;
+    height: 90%;
+}
+
+.row_content {
+    margin: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #FFFFFF;
+}
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.slct_dv {
+    text-align:center
+}
+
+.rotate_button {
+    width: 50px;
+    height: 25px;
+}
+
+.select-button {
+    background: grey;
+    height: 25px;
+    width: 100px;
+}
+
+.unselect-button {
+    height: 25px;
+    width: 100px;
+}
